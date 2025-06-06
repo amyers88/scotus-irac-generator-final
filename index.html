@@ -146,7 +146,11 @@
                     file: fileInput.files[0] ? fileInput.files[0].name : 'No file'
                 });
 
-                const response = await fetch('/api/generate_irac', {
+                // Use production URL for API
+const apiUrl = 'https://scotus-irac-generator-final.onrender.com/api/generate_irac';
+console.log('Using API URL:', apiUrl);
+
+const response = await fetch(apiUrl, {
                     method: 'POST',
                     body: formData,
                     headers: {
