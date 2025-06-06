@@ -41,7 +41,12 @@ def extract_text_from_pdf(pdf_file):
     return text
 
 @app.route('/api/generate_irac', methods=['POST'])
-def log_request():
+def log_request_details():
+    """Simple request logging that won't break the app"""
+    try:
+        logger.info(f"Request: {request.method} {request.path}")
+    except:
+        pass
     """Log details about the incoming request."""
     logger.info(f"Incoming request: {request.method} {request.path}")
     logger.info(f"Headers: {dict(request.headers)}")
@@ -54,6 +59,13 @@ def log_response(response):
     return response
 
 @app.before_request
+def before_request():
+    request.start_time = datetime.now()
+    try:
+        logger.info(f"Request: {request.method} {request.path}")
+    except:
+        pass
+    return None
 def before_request():
     request.start_time = datetime.now()
     log_request()
